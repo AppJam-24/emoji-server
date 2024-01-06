@@ -45,7 +45,7 @@ def getEmotion():
     return jsonify({"emotion": emotionInfo[0]["label"]})
 
 
-@app.route("/api/getDiary", methods=["POST"])
+@app.route("/api/get/diaries", methods=["POST"])
 def getDiary():
     data = request.get_json()
     LOGGER.info(data)
@@ -60,7 +60,7 @@ def getDiary():
     return jsonify({"diaries": diaries})
 
 
-@app.route("/api/saveDiary", methods=["POST"])
+@app.route("/api/save/diary", methods=["POST"])
 def saveDiary():
     data = request.get_json()
     LOGGER.info(data)
@@ -69,14 +69,15 @@ def saveDiary():
     date = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
     emotion = data["emotion"]
     diary = data["diary"]
-    solution = readyGPT(emotion, diary)
+    # solution = readyGPT(emotion, diary)
+    solution = "솔루션!"
 
     id = dbconn.insert(user, date, emotion, diary, solution)
 
     return jsonify({"id": id, "solution": solution})
 
 
-@app.route("/api/saveImage", methods=["POST"])
+@app.route("/api/save/image", methods=["POST"])
 def saveImage():
     data = request.get_json()
     LOGGER.info(data)
