@@ -73,8 +73,9 @@ def saveDiary():
     solution = "솔루션!"
 
     id = dbconn.insert(user, date, emotion, diary, solution)
+    logging.info(f"{id} - {user} - {date} - {emotion} - {diary} - {solution}")
 
-    return jsonify({"id": id, "solution": solution})
+    return jsonify({"solution": solution})
 
 
 @app.route("/api/save/image", methods=["POST"])
