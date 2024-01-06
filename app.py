@@ -12,8 +12,14 @@ load_dotenv()
 
 app = Flask(__name__)
 client = OpenAI(api_key=os.getenv("OPENAI_KEY"))
-LOGGER = logging.getLogger("")
 dbconn = db()
+
+
+logging.basicConfig(
+    format="%(asctime)s %(levelname)s:%(message)s",
+    level=logging.INFO,
+    datefmt="%m/%d/%Y %I:%M:%S %p",
+)
 
 
 def getCompletion(messages, model="gpt-3.5-turbo"):
@@ -40,7 +46,7 @@ def getEmotion():
     data = request.get_json()
     face = base64ToImage(data["face"])
     emotionInfo = emotion.getPrediction(face)
-    LOGGER.info(emotionInfo)
+    logging.info(emotionInfo)
 
     return jsonify({"emotion": emotionInfo[0]["label"]})
 
@@ -48,7 +54,7 @@ def getEmotion():
 @app.route("/api/get/diaries", methods=["POST"])
 def getDiary():
     data = request.get_json()
-    LOGGER.info(data)
+    logging.info(data)
 
     try:
         user = data["user"]
@@ -63,7 +69,7 @@ def getDiary():
 @app.route("/api/save/diary", methods=["POST"])
 def saveDiary():
     data = request.get_json()
-    LOGGER.info(data)
+    logging.info(data)
 
     user = data.get("user", 0)
     date = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
@@ -81,7 +87,7 @@ def saveDiary():
 @app.route("/api/save/image", methods=["POST"])
 def saveImage():
     data = request.get_json()
-    LOGGER.info(data)
+    logging.info(data)
 
     id = data["id"]
     image = data["image"]
