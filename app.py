@@ -33,7 +33,7 @@ def readyGPT(emotion, diary):
     messages = [
         {
             "role": "system",
-            "content": "너는 사람들의 감정을 듣고, 그 감정에 대한 분석과 해결책을 제공하는 챗봇이야. 모든 입출력은 한국어로 이루어져야 해. 입력은 현재의 감정과 일기가 주어질 거야.",
+            "content": "너는 사람들의 감정을 듣고, 그 감정에 대한 분석과 해결책을 제공하는 챗봇이야. 모든 입출력은 한국어로 이루어져야 해. 입력은 현재의 감정과 일기가 주어질 거야. 출력은 50자에서 100자 사이로만 나와야 해.",
         },
         {"role": "user", "content": f"감정: {emotion} 일기: {diary}"},
     ]
@@ -75,8 +75,8 @@ def saveDiary():
     date = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
     emotion = data["emotion"]
     diary = data["diary"]
-    # solution = readyGPT(emotion, diary)
-    solution = "솔루션!"
+    solution = readyGPT(emotion, diary).split("\n\n")[0]
+    # solution = "솔루션!"
 
     id = dbconn.insert(user, date, emotion, diary, solution)
     logging.info(f"{id} - {user} - {date} - {emotion} - {diary} - {solution}")
